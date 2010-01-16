@@ -18,16 +18,31 @@ ber: ber.o
 bp: bp.o
 	$(CPP) -o $@ $^ $(LIB) $(IDIR)
 
-plottest: plottest.cpp
-	$(CPP) -o $@ $^ -lplotter -lXaw -lXmu -lXt -lSM -lICE -lXext -lX11 -lm -I.
-
-
-
 lib: $(LIBOBJ)
 	$(CPP) -shared -Wl,-soname,$(SONAME) -o $(REALNAME) $(LIBOBJ) -lc
 	ar rcs $(STATNAME) $(LIBOBJ)
 	ln -s ./$(REALNAME) ./$(LINKNAME)
 	ln -s ./$(REALNAME) ./$(SONAME)
+
+# must be root
+install:
+	@echo 'Copying Libraries to /usr/lib'
+	cp $(STATNAME) /usr/lib
+	cp $(REALNAME) /usr/lib
+	@echo 'Making Symbolic Links'
+	ln -s /usr/lib/$(REALNAME) /usr/lib/$(LINKNAME)
+	ln -s /usr/lib/$(REALNAME) /usr/lib/$(SONAME)
+
+# must be root
+remove:
+	@echo 'Removing Libraries from /usr/lib'
+	rm -f /usr/lib/$(STATNAME)
+	rm -f /usr/lib/$(REALNAME)
+	@echo 'Removing Symbolic Links'
+	rm -f /usr/lib$(SONAME)
+	rm -f /usr/lib$(LINKNAME)
+
+
 
 %.o:%.c
 	$(CC) $(FLAGS) $+ $(IDIR)

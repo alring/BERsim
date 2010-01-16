@@ -1,0 +1,23 @@
+List of items to implement:
+
+(1)
+Implement qam::quantize
+
+(2)
+add in more modulation schemes
+			   
+
+(3)
+Change class hierarchy to something like
+
+			scheme
+			   |
+	+------------------+---------------------+
+        |                                        |
+        v                                        v
+       psk                                      qam
+        |                                        |
+   +----+----+                             +-----+-----+
+   |    |    |                             |           |
+   v    v    v                             v           v 
+ bpsk  qpsk  8                             16          32

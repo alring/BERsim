@@ -19,19 +19,27 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 #include <boost/lexical_cast.hpp>
 #include "libBER.hpp"
 
 using namespace std;
+
+void printHelp();
 
 int main(int argc, char** argv){
 	unsigned int counter=0;
 	int M=0;
 	double variance = 0.0;
 	int n=0;
+	double rate = 0.0;
 	vector<string>* v = new  vector<string>(argv, argv + argc);
 
         for(counter = 1; counter < v->size(); counter++){
+                if(v->at(counter).compare("-h")==0 || v->at(counter).compare("--help")==0){
+			printHelp();
+			exit(0);
+		}
                 if(v->at(counter).compare("-M")==0 && counter < v->size())
                         M=boost::lexical_cast<int>(v->at(counter+1));
                 if(v->at(counter).compare("-n")==0 && counter < v->size())
@@ -45,8 +53,20 @@ int main(int argc, char** argv){
 		q->printSymbols(n);
 		q->printNoiseSymbols(n);
 	}
-	q->toFile();
-	q->plot();
 	
+	rate = q->sim();
+
+	cout << "The Bit Error Rate is " << rate << endl;
+	q->plot();
 	return 0;
  }
+
+void printHelp(){
+
+std::cout << "-help           	print this message\n" 
+	  << "-var            	noise variance \n"
+	  << "-n              	number of samples \n"
+	  << "-M              	number of constellation points, only 2 or 4 suppoerted currently" 
+	  << std::endl;
+return;
+}

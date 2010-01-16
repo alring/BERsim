@@ -1,0 +1,41 @@
+LICENSE:
+	This software is provided 'as is' and come with NO WARRANTY
+	This software is licensed under the GPLv2 (see LICENSE)
+	If you did not get a copy of LICENSE contact the FSF at
+		Free Software Foundation
+		51 Franklin Street, Fifth Floor
+		Boston, MA 02110-1301
+		USA
+
+BUILDING:
+	to build:
+		$ make
+	to install (must be root):
+		$ make install
+	to remove the install (must be root):
+		$ make remove 
+
+	to use without installing the library:
+		$ export LD_LIBRARY_PATH /path/to/source
+		$ make
+
+RUNNING:
+	To use the provided ber executable use the following options:
+		-help 		help
+		-var 		noise variance
+		-n 		number of samples
+		-M		number of constellation points, only 2 or 4 suppoerted currently
+	eg:
+	$ ./ber -M 2 -n 100 -var .9
+	The Bit Error Rate is 0.14
+	$ ./ber -M 4 -n 100 -var .3
+	The Bit Error Rate is 0.1
+		
+		
+
+DEPENDENCIES:
+	python2.6
+	boost::lexical_cast
+	boost::python
+	boost::random
+	matplotlib python library
