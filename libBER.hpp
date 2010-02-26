@@ -1,3 +1,6 @@
+#ifndef LIBBER_HPP
+#define LIBBER_HPP
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -6,23 +9,25 @@
 #include <algorithm>
 #include <cmath>
 #include <ctime>
-#include <python2.6/Python.h>
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random/uniform_int.hpp>
 #include <boost/random/uniform_real.hpp>
 #include <boost/random/variate_generator.hpp>
 #include <boost/random/normal_distribution.hpp>
+#ifndef NOPYTHON
+#include <python2.6/Python.h>
 #include <boost/python.hpp>
 #include <boost/python/exec.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 #include <boost/python/module.hpp>
 #include <boost/python/def.hpp>
 #include <boost/python/implicit.hpp>
+#endif NOPYTHON
 
 #define C1 		0.316218152546624 
 #define C2 		0.948654457639872
 #define HALFROOT2	0.7071068
-#define MAX_PLOTABLE	5000
+#define MAX_PLOTABLE	5000	//the plotter gets pretty slow with more that about 5000 points
 
 typedef std::complex<double> pt;
 
@@ -64,8 +69,10 @@ class qam{
 		void addNoise(double pwr);
 		void printSymbols(unsigned int upTo);
 		void printNoiseSymbols(unsigned int upTo);
+		#ifndef NOPYTHON
 		void plot();
 		void plotWithFile();
+		#endif
 		double sim();
 		double find_power(pt* in);
 		double dist(pt* a, pt* b);
@@ -74,10 +81,11 @@ class qam{
 		void toFile();
 		bool is_error(int num);
 		std::complex<double> quantize(int num);
-
 };
 
 /* Function Definitions   */
 
 void assignVec(std::vector<pt>* vin, int M);
 
+
+#endif

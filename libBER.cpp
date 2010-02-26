@@ -65,24 +65,48 @@ bool qam::is_error(int num){
 			      && signMatch(a.imag(), b.imag());
 			break;
 		case 16:
-			/* For bpsk/qpsk it's easiet to just compare signs... can't do that exactly with 16-QAM */
-			//int n = quantize(num);
-			
-			
+			/* For bpsk/qpsk it's easiest to just compare signs... can't do that exactly with 16-QAM */
+			if(quantize(num) == this->symbols->at(num))
+				ret=true;
+			else
+				ret=false;
 			break;
 	}
 	return ret;
 }
 
 std::complex<double> qam::quantize(int num){
-	std::complex<double> ret(0.0,0.0);
+	std::complex<double> ret = qam16_pts[0];
 
-	/*
-		int count = this->M;
 
-		for(count
+	pt s = this->symbols_noise->at(num);
 
-	*/
+	#ifdef DEBUG
+	std::cout << "init: " << ret.real() << "  " << ret.imag() << "\n";
+	std::cout << "s: " << s.real() << "  " << s.imag() << "\n";
+	#endif
+
+	int counter = 0;
+	double d1 = 0.0;
+	double d2 = 0.0;
+
+	for(counter=0; counter < (this->M); counter++){
+		d1 = (this->dist(&s, &qam16_pts[counter]));
+		d2 =  (this->dist(&ret, &s));
+	
+		#ifdef DEBUG
+		std::cout << "d1 is " << d1 << "  d2 is " << d2 << std::endl;
+		#endif
+		if(d1 < d2)
+			ret=qam16_pts[counter];
+	}
+
+	#ifdef DEBUG
+	std::cout << "symbol is "	<< this->symbols->at(num).real() << ", " 
+					<< this->symbols->at(num).imag() << "  returned symbol is " 
+					<< ret.real() << ", " << ret.imag() << std::endl;
+	#endif	
+
 	return ret;
 
 }
@@ -132,6 +156,7 @@ void qam::printNoiseSymbols(unsigned int upTo){
 ** Methods for ploting constellations
 ************************************/
 
+#ifndef NOPYTHON
 /* Plot using matplotlib & python */
 void qam::plot(){
 	unsigned int i=0;
@@ -185,6 +210,7 @@ void qam::plotWithFile(){
 	Py_Finalize();
 	return;
 }
+#endif NOPYTHON
 
 /* write data to files in /tmp */
 void qam::toFile(){

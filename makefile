@@ -1,6 +1,7 @@
 IDIR=-I$(value PWD) -I/usr/include/python2.6
 CPP=g++
 FLAGS=-c -fPIC -g -Wall
+NOPYTHON=-DNOPYTHON
 LIBOBJ=libBER.o
 NAME=libBER
 LIB=-L . -lBER -lm -lpython2.6 -lboost_python

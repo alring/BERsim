@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  ver.cpp
+ *       Filename:  ber.cpp
  *
  *    Description:  
  *
@@ -49,6 +49,8 @@ int main(int argc, char** argv){
 	}
 	qam::qam* q =  new qam(M, n);
 	q->addNoise(variance);
+
+	/* prints symbols to stdout if there are less than 15 symbols */
 	if(M!=16 && n<15){
 		q->printSymbols(n);
 		q->printNoiseSymbols(n);
@@ -57,16 +59,16 @@ int main(int argc, char** argv){
 	rate = q->sim();
 
 	cout << "The Bit Error Rate is " << rate << endl;
-	q->plot();
+	//q->plot();
 	return 0;
  }
 
 void printHelp(){
 
-std::cout << "-help           	print this message\n" 
-	  << "-var            	noise variance \n"
-	  << "-n              	number of samples \n"
-	  << "-M              	number of constellation points, only 2 or 4 suppoerted currently" 
-	  << std::endl;
-return;
+	std::cout << "-help           	print this message\n" 
+		  << "-var            	noise variance \n"
+		  << "-n              	number of samples \n"
+		  << "-M              	number of constellation points, only 2 or 4 suppoerted currently" 
+		  << std::endl;
+	return;
 }
