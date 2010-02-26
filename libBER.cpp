@@ -21,6 +21,10 @@ qam::qam(int M, int N){
 	this->symbols_noise = new std::vector<pt>(*this->symbols);
 }
 
+qam::~qam(){
+
+}	
+
 /******************************************
 ** Methods for doing the actual simulation
 *******************************************/
@@ -37,7 +41,7 @@ void qam::addNoise(double pwr){
 		itr->real() += norm();
 	}
 	return;
-}
+	}
 
 double qam::sim(){
 	int counter=0;
@@ -49,7 +53,7 @@ double qam::sim(){
 	}	
 
 	return (double) errors/(this->N);
-}
+	}
 
 bool qam::is_error(int num){
 	bool ret;
@@ -108,8 +112,7 @@ std::complex<double> qam::quantize(int num){
 	#endif	
 
 	return ret;
-
-}
+	}
 
 double qam::find_power(pt* in){
 	return sqrt(pow(in->real(),2) + pow(in->imag(),2));
