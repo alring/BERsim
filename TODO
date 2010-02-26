@@ -2,10 +2,10 @@ List of items to implement:
 
 (1)
 Implement qam::quantize
+DONE
 
 (2)
 add in more modulation schemes
-			   
 
 (3)
 Change class hierarchy to something like
@@ -21,3 +21,9 @@ Change class hierarchy to something like
    |    |    |                             |           |
    v    v    v                             v           v 
  bpsk  qpsk  8                             16          32
+
+(4)
+check for memory leaks
+
+(5)
+improve use of STL

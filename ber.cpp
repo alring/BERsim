@@ -67,10 +67,13 @@ int main(int argc, char** argv){
 		}
 	
 	rate = q->sim();
-	q->plot();
 
 	cout << "The Bit Error Rate is " << rate << endl;
-	//q->plot();
+	q->plot();
+	
+	delete q;
+	q = NULL;
+
 	return 0;
  }
 

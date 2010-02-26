@@ -7,19 +7,28 @@ qam::qam(int M, int N){
 	if(std::find(M_values, M_max, M)==M_max){
 		std::cout << M << " not accectable" << std::endl;
 		exit(0);
-	}
+		}
 
 	this->N=N;
 	if(N <= 0){
 		std::cout << "N must be 1 or greater" << std::endl;
 		exit(0);
-	}
+		}
 
 
 	this->symbols = new std::vector<pt>(this->N);
 	assignVec(symbols, this->M);
 	this->symbols_noise = new std::vector<pt>(*this->symbols);
-}
+	}
+
+qam::~qam(){
+	delete this->symbols;	
+	this->symbols = NULL;
+	delete this->symbols_noise;
+	this->symbols_noise = NULL;
+	
+	return;
+	}
 
 /******************************************
 ** Methods for doing the actual simulation
@@ -35,9 +44,9 @@ void qam::addNoise(double pwr){
 	for(itr = this->symbols_noise->begin(); itr < this->symbols_noise->end(); itr++){
 		itr->imag() += norm();
 		itr->real() += norm();
-	}
+		}
 	return;
-}
+	}
 
 double qam::sim(){
 	int counter=0;
@@ -46,10 +55,10 @@ double qam::sim(){
 	for(counter=0; counter<this->N; counter++){
 		if(!this->is_error(counter))
 			errors++;
-	}	
+		}	
 
 	return (double) errors/(this->N);
-}
+	}
 
 bool qam::is_error(int num){
 	bool ret;
@@ -78,7 +87,6 @@ bool qam::is_error(int num){
 std::complex<double> qam::quantize(int num){
 	std::complex<double> ret = qam16_pts[0];
 
-
 	pt s = this->symbols_noise->at(num);
 
 	#ifdef DEBUG
@@ -99,8 +107,7 @@ std::complex<double> qam::quantize(int num){
 		#endif
 		if(d1 < d2)
 			ret=qam16_pts[counter];
-	}
-
+		}
 	#ifdef DEBUG
 	std::cout << "symbol is "	<< this->symbols->at(num).real() << ", " 
 					<< this->symbols->at(num).imag() << "  returned symbol is " 
@@ -108,16 +115,15 @@ std::complex<double> qam::quantize(int num){
 	#endif	
 
 	return ret;
-
-}
+	}
 
 double qam::find_power(pt* in){
 	return sqrt(pow(in->real(),2) + pow(in->imag(),2));
-}
+	}
 
 double qam::dist(pt* a, pt* b){
 	return sqrt(pow(a->real() - b->real(), 2) + pow(a->imag() - b->imag(), 2));
-}
+	}
 
 /**************************
 ** Pring symbols to std out
@@ -136,7 +142,7 @@ void qam::printSymbols(unsigned int upTo){
 	for(counter=0; counter<upTo; counter++)
 		std::cout << this->symbols->at(counter) << std::endl;
 	return;
-}
+	}
 
 /* Prints I&Q of noisy symbols to stdout, up to a specified number */
 void qam::printNoiseSymbols(unsigned int upTo){
@@ -150,7 +156,7 @@ void qam::printNoiseSymbols(unsigned int upTo){
 	for(counter=0; counter<upTo; counter++)
 		std::cout << this->symbols_noise->at(counter) << std::endl;
 	return;
-}
+	}
 
 /************************************
 ** Methods for ploting constellations
@@ -167,7 +173,7 @@ void qam::plot(){
 	for(i=0; i<MAX_PLOTABLE&&i<this->symbols_noise->size(); i++){
 		I[i]=this->symbols_noise->at(i).real();
 		Q[i]=this->symbols_noise->at(i).imag();
-	}
+		}
 
 	Py_Initialize();
 
@@ -182,14 +188,14 @@ void qam::plot(){
 		global["x"] = I;  // inphase is x-axis
 		global["y"] = Q; // quadrature is y-axis
 		object result = exec_file("scatterPlot.py", global, global);
-	}
+		}
 	catch(error_already_set){
 		PyErr_Print();
-	}
+		}
 
 	Py_Finalize();
 	return;
-}
+	}
 
 /* plot using matplotlib and python, but write files to /tmp */
 void qam::plotWithFile(){
@@ -202,14 +208,14 @@ void qam::plotWithFile(){
 		object main = import("__main__");
 		object global(main.attr("__dict__"));
 		object result = exec_file("scatterPlot_old.py", global, global);
-	}
+		}
 	catch(error_already_set){
 		PyErr_Print();
-	}
+		}
 
 	Py_Finalize();
 	return;
-}
+	}
 #endif
 
 /* write data to files in /tmp */
@@ -254,7 +260,7 @@ void qam::toFile(){
 	Sym_stream.close();
 	SymNoise_stream.close();
 	return;
-}
+	}
 
 
 /* this is ugly, I am aware */
@@ -268,19 +274,18 @@ void assignVec(std::vector<pt>* vin, int M){
 		std::vector<pt> pts(bpsk_pts, bpsk_pts + sizeof(bpsk_pts)/sizeof(pt));
 		for(itr=vin->begin(); itr<vin->end(); itr++){
 			*itr = pts[uni()];
-				
+			}
 		}
-	}
 	else if(M==4){
 		std::vector<pt> pts(qpsk_pts, qpsk_pts + sizeof(qpsk_pts)/sizeof(pt));
 		for(itr=vin->begin(); itr<vin->end(); itr++)
 			*itr = pts[uni()];
-	}
+		}
 	else if(M==16){
 		std::vector<pt> pts(qam16_pts, qam16_pts + sizeof(qam16_pts)/sizeof(pt));
 		for(itr=vin->begin(); itr<vin->end(); itr++)
 			*itr = pts[uni()];
-	}
+		}
 	else
 		std::cout << "error" << std::endl;
 

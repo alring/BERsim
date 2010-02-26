@@ -59,13 +59,10 @@ bool signMatch(T a, T b){
 /* Class Definitions  */
 
 class qam{
-	std::vector<pt>* symbols;
-	std::vector<pt>* symbols_noise;
-	int M;
-	int N;
 
 	public:
 		qam(int M, int N);
+		~qam();
 		void addNoise(double pwr);
 		void printSymbols(unsigned int upTo);
 		void printNoiseSymbols(unsigned int upTo);
@@ -77,11 +74,19 @@ class qam{
 		double find_power(pt* in);
 		double dist(pt* a, pt* b);
 
+		
+
 	private:
+		/* methods */
 		void toFile();
 		bool is_error(int num);
 		std::complex<double> quantize(int num);
-};
+
+		/* variables */
+		std::vector<pt>* symbols;
+		std::vector<pt>* symbols_noise;
+		int M;
+		int N;};
 
 /* Function Definitions   */
 
