@@ -89,8 +89,7 @@ bool checkNoise(double* N0, double* var){
 		cerr << "Error Checking noise power\n";
 		return false;
 		}
-
-	if((*N0) < 0 || (*var) < 0){
+	else if((*N0) < 0 || (*var) < 0){
 		cerr << "Neither N0 nor var can be negative\n";
 		return false;
 		}
@@ -98,8 +97,11 @@ bool checkNoise(double* N0, double* var){
 		cerr << "If both the variance and N0 are set, then the variance must be 2*N0\n";
 		return false;
 		}
-	else{
+	else if((*N0) > 0 && (*var) == 0){
 		*var = (*N0)*2.0;
+		return true;
+		}
+	else if((*N0) == 0 && (*var) > 0){
 		return true;
 		}
 
