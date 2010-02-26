@@ -22,7 +22,7 @@
 #include <boost/python/module.hpp>
 #include <boost/python/def.hpp>
 #include <boost/python/implicit.hpp>
-#endif NOPYTHON
+#endif
 
 #define C1 		0.316218152546624 
 #define C2 		0.948654457639872

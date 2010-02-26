@@ -13,7 +13,7 @@ BUILDING:
 	to install (must be root):
 		$ make install
 	to remove the install (must be root):
-		$ make remove 
+		$ make remove
 
 	to use without installing the library:
 		$ export LD_LIBRARY_PATH /path/to/source
@@ -21,17 +21,16 @@ BUILDING:
 
 RUNNING:
 	To use the provided ber executable use the following options:
-		-help 		help
-		-var 		noise variance
-		-n 		number of samples
+		-help		help
+		-var		noise variance
+		-N0		Noise power, note: N0 = variance/2
+		-n		number of samples
 		-M		number of constellation points, only 2 or 4 suppoerted currently
 	eg:
 	$ ./ber -M 2 -n 100 -var .9
 	The Bit Error Rate is 0.14
 	$ ./ber -M 4 -n 100 -var .3
 	The Bit Error Rate is 0.1
-		
-		
 
 DEPENDENCIES:
 	python2.6

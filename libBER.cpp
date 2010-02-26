@@ -210,7 +210,7 @@ void qam::plotWithFile(){
 	Py_Finalize();
 	return;
 }
-#endif NOPYTHON
+#endif
 
 /* write data to files in /tmp */
 void qam::toFile(){
