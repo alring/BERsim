@@ -84,27 +84,30 @@ bool checkNoise(double* N0, double* var){
 	 * otherwise error
 	 */
 
-	/* TODO make smart poiner? */
+	bool ret;
+
+	/* TODO make smart pointer? */
 	if(N0==NULL || var==NULL){
 		cerr << "Error Checking noise power\n";
-		return false;
+		ret = false;
 		}
 	else if((*N0) < 0 || (*var) < 0){
 		cerr << "Neither N0 nor var can be negative\n";
-		return false;
+		ret = false;
 		}
 	else if((*N0>0 && *var>0) && (*var != 2.0 * (*N0))){
 		cerr << "If both the variance and N0 are set, then the variance must be 2*N0\n";
-		return false;
+		ret = false;
 		}
 	else if((*N0) > 0 && (*var) == 0){
 		*var = (*N0)*2.0;
-		return true;
+		ret = true;
 		}
 	else if((*N0) == 0 && (*var) > 0){
-		return true;
+		ret = true;
 		}
 
+	return ret;
 	}
 
 void printHelp(){

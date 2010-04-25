@@ -55,4 +55,4 @@ remove:
 	clean
 
 clean:
-	rm -f *.o ber $(SONAME) $(LINKNAME) $(REALNAME) $(STATNAME)
+	rm -f *.o ber $(SONAME) $(LINKNAME) $(REALNAME) $(STATNAME) *.zip *.tar
